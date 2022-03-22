@@ -1,0 +1,16 @@
+{% extends "_layout.twig" %}
+
+{% block title %}{{ pagetitle }}{% endblock %}
+
+	{% block content %}
+<h1>{{ pagetitle }}</h1>
+
+{% if page.content %}
+	<p><small>From the principia-web wiki, the free Principia wiki.</small></p>
+
+	{{ page.content | markdown }}
+	{#{{ source('flatfile_db/' ~ pagetitle_slugified) | markdown_unsafe }}#}
+{% else %}
+	<p>This page does not exist. Would you like to create it?</p>
+{% endif %}
+	{% endblock %}
