@@ -13,4 +13,8 @@
 {% else %}
 	<p>This page does not exist. Would you like to create it?</p>
 {% endif %}
+
+<div class="wikilinks footer_message">
+	<a href="/wiki/edit.php?page={{ pagetitle_slugified }}">Edit</a>
+</div>
 	{% endblock %}

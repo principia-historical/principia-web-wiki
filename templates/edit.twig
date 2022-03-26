@@ -1,0 +1,15 @@
+{% extends "_layout.twig" %}
+
+{% block title %}Edit article{% endblock %}
+
+	{% block content %}
+<h2>Edit article</h2>
+
+<form action="/wiki/edit.php?page={{ pagetitle_slugified }}" method="POST">
+	<p><b>{{ pagetitle }}</b></p>
+	<p><textarea name="text" placeholder="Page content" cols="80" rows="15">{{ page.content }}</textarea></p>
+	<p><em>Markdown formatting syntax is allowed.</em></p>
+
+	<p><input type="submit" name="action" value="Save changes"></input></p>
+</form>
+	{% endblock %}
