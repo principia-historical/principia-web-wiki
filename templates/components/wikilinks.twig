@@ -1,0 +1,11 @@
+{% macro wikilinks(page) %}
+	<div class="wikilinks">
+		<a href="/wiki/recentchanges.php">Recent changes</a>
+
+		<div class="float-right">
+			<a href="/wiki/{{ page }}">Read</a>
+			&bull; <a href="/wiki/edit.php?page={{ page }}">Edit</a>
+			&bull; <a href="/wiki/viewhistory.php?page={{ page }}">View history</a>
+		</div>
+	</div>
+{% endmacro %}

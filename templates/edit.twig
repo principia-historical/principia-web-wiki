@@ -1,4 +1,5 @@
 {% extends "_layout.twig" %}
+{% from 'components/wikilinks.twig' import wikilinks %}
 
 {% set title = "Edit article" %}
 
@@ -12,6 +13,6 @@
 
 	<p><input type="submit" name="action" value="Save changes"></input></p>
 </form>
-	{% endblock %}
 
-\ No newline at end of file
+{{ wikilinks(pagetitle_slugified) }}
+	{% endblock %}
