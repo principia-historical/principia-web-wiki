@@ -1,0 +1,30 @@
+{% extends "_layout.twig" %}
+{% from 'components/wikilinks.twig' import wikilinks %}
+
+{% set title = "Revision history of \"" ~ pagetitle ~ "\"" %}
+
+	{% block content %}
+<h1>{{ title }}</h1>
+
+<ul>
+{% for rev in revisions %}
+<li>
+	(<a href="">cur</a> | <a href="">prev</a>)
+	&nbsp; <a href="">{{ rev.time | date('H:m, Y-m-d') }}</a>
+	&nbsp; {{ userlink(rev, "u_") }}
+	&nbsp; ({{ rev.size }} bytes)
+	{% if rev.revision != 1 %}
+		{% if rev.sizediff > 0 %}
+			<span style="color:#0f0">(+{{ rev.sizediff }})</span>
+		{% elseif rev.sizediff < 0 %}
+			<span style="color:#f00">({{ rev.sizediff }})</span>
+		{% else %}
+			<span style="color:#aaa">(0)</span>
+		{% endif %}
+	{% endif %}
+</li>
+{% endfor %}
+</ul>
+
+{{ wikilinks(pagetitle_slugified) }}
+	{% endblock %}
