@@ -10,5 +10,20 @@ function _twigloader($subfolder = '') {
 		]);
 	});
 
+	$twig->addExtension(new PrincipiaWikiExtension());
+
 	return $twig;
+}
+
+class PrincipiaWikiExtension extends \Twig\Extension\AbstractExtension {
+	public function getFilters() {
+		return [
+			// Markdown function for wiki, sanitized and using the ToC extension.
+			new \Twig\TwigFilter('markdown_wiki', function ($text) {
+				$markdown = new ParsedownToC();
+				$markdown->setSafeMode(true);
+				return $markdown->text($text);
+			}, ['is_safe' => ['html']]),
+		];
+	}
 }

@@ -13,7 +13,7 @@
 		<p><small>From the principia-web wiki, the free Principia wiki.</small></p>
 	{% endif %}
 
-	{{ page.content | markdown }}
+	{{ page.content | markdown_wiki }}
 	{#{{ source('flatfile_db/' ~ pagetitle_slugified) | markdown_unsafe }}#}
 {% else %}
 	<p>This page does not exist. Would you like to create it?</p>
