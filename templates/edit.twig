@@ -3,13 +3,15 @@
 {% set title = "Edit article" %}
 
 	{% block content %}
-<h2>Edit article</h2>
+<h1>Edit article</h1>
 
 <form action="/wiki/edit.php?page={{ pagetitle_slugified }}" method="POST">
-	<p><b>{{ pagetitle }}</b></p>
+	<p><strong>{{ pagetitle }}</strong></p>
 	<p><textarea name="text" placeholder="Page content" cols="80" rows="15">{{ page.content }}</textarea></p>
 	<p><em>Markdown formatting syntax is allowed.</em></p>
 
 	<p><input type="submit" name="action" value="Save changes"></input></p>
 </form>
 	{% endblock %}
+
+\ No newline at end of file

@@ -3,7 +3,7 @@ require('lib/common.php');
 
 $page = (isset($_GET['page']) ? str_replace('_', ' ', $_GET['page']) : 'Main Page');
 
-$pagedata = fetch("SELECT * FROM wikipages WHERE title = ?", [$page]);
+$pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON p.cur_revision = r.revision WHERE p.title = ? AND r.page = ?", [$page, $page]);
 
 $twig = _twigloader();
 echo $twig->render('index.twig', [
