@@ -11,8 +11,18 @@
 	<p><textarea name="text" placeholder="Page content" cols="80" rows="15">{{ page.content }}</textarea></p>
 	<p><em>Markdown formatting syntax is allowed.</em></p>
 
-	<p><input type="submit" name="action" value="Save changes"></input></p>
+	<p>
+		<input type="submit" name="action" value="Save changes"></input>
+		<input type="submit" name="action" value="Preview"></input>
+	</p>
 </form>
+
+{% if action == 'Preview' %}
+	<hr>
+
+	<h1>Preview: {{ pagetitle }}</h1>
+	{{ page.content | markdown_wiki }}
+{% endif %}
 
 {{ wikilinks(pagetitle_slugified, "edit") }}
 	{% endblock %}
