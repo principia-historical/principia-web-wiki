@@ -9,8 +9,6 @@
 {% if page.content %}
 	{% if revision %}
 		<p><em>This is an old revision from {{ revdata.time | date('Y-m-d H:m') }} by {{ userlink(revdata, 'u_') }}</em></p>
-	{% else %}
-		<p><small>From the principia-web wiki, the free Principia wiki.</small></p>
 	{% endif %}
 
 	{{ page.content | markdown_wiki }}
