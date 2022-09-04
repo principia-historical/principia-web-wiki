@@ -1,33 +1,7 @@
 <?php
 
-class DynamicParent extends \Parsedown {
-	public function __construct() {
-		//
-	}
-}
-
-class ParsedownToC extends DynamicParent {
-	protected $default_params = [
-		'selectors' => ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-		'delimiter' => '-',
-		'limit' => null,
-		'lowercase' => true,
-		'replacements' => null,
-		'transliterate' => false,
-		'urlencode' => false,
-		'blacklist' => [],
-	];
-
-	public function __construct(array $params = null) {
-		parent::__construct();
-
-		if (!empty($params)) {
-			$this->options = array_merge($this->default_params, $params);
-		} else {
-			$this->options = $this->default_params;
-		}
-	}
-
+class ParsedownToC extends \Parsedown {
+	protected $selectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
 	/**
 	 * Heading process.
@@ -40,7 +14,7 @@ class ParsedownToC extends DynamicParent {
 	 */
 	protected function blockHeader($Line) {
 		// Use parent blockHeader method to process the $Line to $Block
-		$Block = DynamicParent::blockHeader($Line);
+		$Block = parent::blockHeader($Line);
 
 		if (!empty($Block)) {
 			// Get the text of the heading
@@ -59,8 +33,7 @@ class ParsedownToC extends DynamicParent {
 			$Block['element']['attributes']['id'] = $id;
 
 			// Check if level are defined as a selector
-			if (in_array($level, $this->options['selectors'])) {
-
+			if (in_array($level, $this->selectors)) {
 				// Add/stores the heading element info to the ToC list
 				$this->setContentsList([
 					'text'  => $text,
@@ -84,7 +57,7 @@ class ParsedownToC extends DynamicParent {
 	 */
 	protected function blockSetextHeader($Line, array $Block = null) {
 		// Use parent blockHeader method to process the $Line to $Block
-		$Block = DynamicParent::blockSetextHeader($Line, $Block);
+		$Block = parent::blockSetextHeader($Line, $Block);
 
 		if (!empty($Block)) {
 			// Get the text of the heading
@@ -103,8 +76,7 @@ class ParsedownToC extends DynamicParent {
 			$Block['element']['attributes']['id'] = $id;
 
 			// Check if level are defined as a selector
-			if (in_array($level, $this->options['selectors'])) {
-
+			if (in_array($level, $this->selectors)) {
 				// Add/stores the heading element info to the ToC list
 				$this->setContentsList([
 					'text'  => $text,
@@ -118,51 +90,17 @@ class ParsedownToC extends DynamicParent {
 	}
 
 	/**
-	 * Parses the given markdown string to an HTML string but it leaves the ToC
-	 * tag as is. It's an alias of the parent method "\DynamicParent::text()".
-	 *
-	 * @param  string $text  Markdown string to be parsed.
-	 * @return string        Parsed HTML string.
-	 */
-	public function body($text) : string {
-		$text = $this->encodeTagToHash($text);   // Escapes ToC tag temporary
-		$html = DynamicParent::text($text);      // Parses the markdown text
-		$html = $this->decodeTagFromHash($html); // Unescape the ToC tag
-
-		return $html;
-	}
-
-	/**
 	 * Returns the parsed ToC.
 	 *
-	 * @param  string $type_return  Type of the return format. "html", "json", or "array".
 	 * @return string|array         HTML/JSON string, or array of ToC.
 	 */
-	public function contentsList($type_return = 'html') {
-		if ('html' === strtolower($type_return)) {
-			$result = '';
-			if (! empty($this->contentsListString)) {
-				// Parses the ToC list in markdown to HTML
-				$result = $this->body($this->contentsListString);
-			}
-			return $result;
+	public function contentsList() {
+		$result = '';
+		if (!empty($this->contentsListString)) {
+			// Parses the ToC list in markdown to HTML
+			$result = parent::text($this->contentsListString);
 		}
-
-		if ('json' === strtolower($type_return)) {
-			return json_encode($this->contentsListArray);
-		}
-
-		if ('array' === strtolower($type_return)) {
-			return $this->contentsListArray;
-		}
-
-		// Forces to return ToC as "html"
-		error_log(
-			'Unknown return type given while parsing ToC.'
-			. ' At: ' . __FUNCTION__ . '() '
-			. ' in Line:' . __LINE__ . ' (Using default type)'
-		);
-		return $this->contentsList('html');
+		return $result;
 	}
 
 	/**
@@ -175,13 +113,6 @@ class ParsedownToC extends DynamicParent {
 	protected function createAnchorID($str) : string {
 		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
 		$str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
-
-		if($this->options['urlencode']) {
-			// Check AnchorID is unique
-			$str = $this->incrementAnchorId($str);
-
-			return urlencode($str);
-		}
 
 		$char_map = [
 			// Latin
@@ -200,102 +131,25 @@ class ParsedownToC extends DynamicParent {
 			'©' => '(c)','®' => '(r)','™' => '(tm)',
 		];
 
-		// Make custom replacements
-		if(!empty($this->options['replacements'])) {
-			$str = preg_replace(array_keys($this->options['replacements']), $this->options['replacements'], $str);
-		}
-
 		// Transliterate characters to ASCII
-		if ($this->options['transliterate']) {
+		if (false) {
 			$str = str_replace(array_keys($char_map), $char_map, $str);
 		}
 
 		// Replace non-alphanumeric characters with our delimiter
-		$str = preg_replace('/[^\p{L}\p{Nd}]+/u', $this->options['delimiter'], $str);
+		$str = preg_replace('/[^\p{L}\p{Nd}]+/u', '-', $str);
 
 		// Remove duplicate delimiters
-		$str = preg_replace('/(' . preg_quote($this->options['delimiter'], '/') . '){2,}/', '$1', $str);
-
-		// Truncate slug to max. characters
-		$str = mb_substr($str, 0, ($this->options['limit'] ? $this->options['limit'] : mb_strlen($str, 'UTF-8')), 'UTF-8');
+		$str = preg_replace('/(' . preg_quote('-', '/') . '){2,}/', '$1', $str);
 
 		// Remove delimiter from ends
-		$str = trim($str, $this->options['delimiter']);
+		$str = trim($str, '-');
 
-		$str = $this->options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
+		$str = mb_strtolower($str, 'UTF-8');
 
 		$str = $this->incrementAnchorId($str);
 
 		return $str;
-	}
-
-	/**
-	 * Decodes the hashed ToC tag to an original tag and replaces.
-	 *
-	 * This is used to avoid parsing user defined ToC tag which includes "_" in
-	 * their tag such as "[[_toc_]]". Unless it will be parsed as:
-	 *   "<p>[[<em>TOC</em>]]</p>"
-	 *
-	 * @param  string $text
-	 * @return string
-	 */
-	protected function decodeTagFromHash($text) {
-		$salt = $this->getSalt();
-		$tag_hashed = hash('sha256', $salt.'[toc]');
-
-		if (!str_contains($text, $tag_hashed)) {
-			return $text;
-		}
-
-		return str_replace($tag_hashed, '[toc]', $text);
-	}
-
-	/**
-	 * Encodes the ToC tag to a hashed tag and replace.
-	 *
-	 * This is used to avoid parsing user defined ToC tag which includes "_" in
-	 * their tag such as "[[_toc_]]". Unless it will be parsed as:
-	 *   "<p>[[<em>TOC</em>]]</p>"
-	 *
-	 * @param  string $text
-	 * @return string
-	 */
-	protected function encodeTagToHash($text) {
-		$salt = $this->getSalt();
-
-		if (!str_contains($text, '[toc]')) {
-			return $text;
-		}
-
-		$tag_hashed = hash('sha256', $salt.'[toc]');
-
-		return str_replace('[toc]', $tag_hashed, $text);
-	}
-
-	/**
-	 * Get only the text from a markdown string.
-	 * It parses to HTML once then trims the tags to get the text.
-	 *
-	 * @param  string $text  Markdown text.
-	 * @return string
-	 */
-	protected function fetchText($text) {
-		return trim(strip_tags($this->line($text)));
-	}
-
-	/**
-	 * Unique string to use as a salt value.
-	 *
-	 * @return string
-	 */
-	protected function getSalt() {
-		static $salt;
-		if (isset($salt)) {
-			return $salt;
-		}
-
-		$salt = hash('md5', time());
-		return $salt;
 	}
 
 	/**
@@ -330,7 +184,7 @@ class ParsedownToC extends DynamicParent {
 	 * @return void
 	 */
 	protected function setContentsListAsString(array $Content) {
-		$text  = $this->fetchText($Content['text']);
+		$text  = trim(strip_tags($this->line($Content['text'])));
 		$id    = $Content['id'];
 		$level = (integer) trim($Content['level'], 'h');
 		$link  = "[${text}](#${id})";
@@ -369,63 +223,37 @@ class ParsedownToC extends DynamicParent {
 		// Parses the markdown text except the ToC tag. This also searches
 		// the list of contents and available to get from "contentsList()"
 		// method.
-		$html = $this->body($text);
+		$html = parent::text($text);
 
-		if (!str_contains($text, '[toc]')) {
+		if (!str_contains($text, '[toc]'))
 			return $html;
-		}
 
 		$toc_data = $this->contentsList();
-		$needle  = '<p>[toc]</p>';
 		$replace = <<<HTML
 <div class="toc" id="toc">
-	<div class="toc_title"><strong>Contents</strong> [<a href="#" id="toc_toggle" onclick="toggleVis('toc_content', 'toc_toggle')">Hide</a>]</div>
+	<div class="toc_title"><strong>Contents</strong> [<a href="" id="toc_toggle" onclick="toggleVis('toc_content', 'toc_toggle')">Hide</a>]</div>
 	<div class="toc_content" id="toc_content">${toc_data}</div>
 </div>
 HTML;
 
-		return str_replace($needle, $replace, $html);
+		return str_replace('<p>[toc]</p>', $replace, $html);
 	}
 
-
-	protected $isBlacklistInitialized = false;
 	protected $anchorDuplicates = [];
 
 	/**
-	 * Add blacklisted ids to anchor list
-	 */
-	protected function initBlacklist() {
-
-		if ($this->isBlacklistInitialized) return;
-
-		if (!empty($this->options['blacklist']) && is_array($this->options['blacklist'])) {
-
-			foreach ($this->options['blacklist'] as $v) {
-				if (is_string($v)) $this->anchorDuplicates[$v] = 0;
-			}
-		}
-
-		$this->isBlacklistInitialized = true;
-	}
-
-	/**
 	 * Collect and count anchors in use to prevent duplicated ids. Return string
-	 * with incremental, numeric suffix. Also init optional blacklist of ids.
+	 * with incremental, numeric suffix.
 	 *
 	 * @param  string $str
 	 * @return string
 	 */
 	protected function incrementAnchorId($str) {
-
-		// add blacklist to list of used anchors
-		if (!$this->isBlacklistInitialized) $this->initBlacklist();
-
 		$this->anchorDuplicates[$str] = !isset($this->anchorDuplicates[$str]) ? 0 : ++$this->anchorDuplicates[$str];
 
 		$newStr = $str;
 
 		if ($count = $this->anchorDuplicates[$str]) {
-
 			$newStr .= "-{$count}";
 
 			// increment until conversion doesn't produce new duplicates anymore
@@ -435,10 +263,8 @@ HTML;
 			else {
 				$this->anchorDuplicates[$newStr] = 0;
 			}
-
 		}
 
 		return $newStr;
 	}
-
 }
