@@ -10,9 +10,9 @@
 {% for rev in revisions %}
 <li>
 	(<a href="">cur</a> | <a href="">prev</a>)
-	&nbsp; <a href="/wiki/{{ pagetitle_slugified }}?rev={{ rev.revision }}">{{ rev.time | date('H:m, Y-m-d') }}</a>
-	&nbsp; {{ userlink(rev, "u_") }}
-	&nbsp; ({{ rev.size }} bytes)
+	&nbsp;<a href="/wiki/{{ pagetitle_slugified }}?rev={{ rev.revision }}">{{ rev.time | date('H:m, Y-m-d') }}</a>
+	&nbsp;{{ userlink(rev, "u_") }}
+	&nbsp;({{ rev.size }} bytes)
 	{% if rev.revision != 1 %}
 		{% if rev.sizediff > 0 %}
 			<span style="color:#0f0">(+{{ rev.sizediff }})</span>
