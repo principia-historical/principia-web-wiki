@@ -6,7 +6,7 @@ $page_slugified = (isset($_GET['page']) ? $_GET['page'] : 'Main_Page');
 
 $pagedata = fetch("SELECT * FROM wikipages WHERE title = ?", [$page]);
 
-$revisions = query("SELECT $userfields r.revision, r.size, r.sizediff, r.time FROM wikirevisions r JOIN users u ON r.author = u.id WHERE r.page = ? ORDER BY r.revision DESC", [$page]);
+$revisions = query("SELECT $userfields r.revision, r.size, r.sizediff, r.time, r.description FROM wikirevisions r JOIN users u ON r.author = u.id WHERE r.page = ? ORDER BY r.revision DESC", [$page]);
 
 $twig = _twigloader();
 echo $twig->render('viewhistory.twig', [

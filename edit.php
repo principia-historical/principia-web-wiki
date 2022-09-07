@@ -11,6 +11,7 @@ if ($action == 'Preview') $pagedata['content'] = $_POST['text'];
 
 if ($log && $action == 'Save changes') {
 	$content = $_POST['text'] ?? '';
+	$description = $_POST['description'] ?? null;
 	$size = strlen($content);
 
 	if ($pagedata) {
@@ -20,14 +21,14 @@ if ($log && $action == 'Save changes') {
 		$newrev = result("SELECT cur_revision FROM wikipages WHERE title = ?", [$page]);
 		$oldsize = result("SELECT size FROM wikirevisions WHERE revision = ?", [$newrev-1]);
 
-		query("INSERT INTO wikirevisions (page, revision, author, time, size, sizediff, content) VALUES (?,?,?,?,?,?,?)",
-			[$page, $newrev, $userdata['id'], time(), $size, ($size - $oldsize), $content]);
+		query("INSERT INTO wikirevisions (page, revision, author, time, size, sizediff, description, content) VALUES (?,?,?,?,?,?,?,?)",
+			[$page, $newrev, $userdata['id'], time(), $size, ($size - $oldsize), $description, $content]);
 	} else {
 		query("INSERT INTO wikipages (title) VALUES (?)",
 			[$page]);
 
-		query("INSERT INTO wikirevisions (page, author, time, size, content) VALUES (?,?,?,?,?)",
-			[$page, $userdata['id'], time(), $size, $content]);
+		query("INSERT INTO wikirevisions (page, author, time, size, description, content) VALUES (?,?,?,?,?,?)",
+			[$page, $userdata['id'], time(), $size, $description, $content]);
 	}
 
 	redirect("/wiki/$page_slugified");

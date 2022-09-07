@@ -22,6 +22,7 @@
 			<span style="color:#aaa">(0)</span>
 		{% endif %}
 	{% endif %}
+	{% if rev.description %} <em>({{ rev.description }})</em>{% endif %}
 </li>
 {% endfor %}
 </ul>
