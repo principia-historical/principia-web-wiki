@@ -8,15 +8,19 @@
 
 <form action="/wiki/edit.php?page={{ pagetitle_slugified }}" method="POST">
 	<p><strong>{{ pagetitle }}</strong></p>
-	<p><textarea name="text" placeholder="Page content" cols="80" rows="15">{{ page.content }}</textarea></p>
-	<p><em>Markdown formatting syntax is allowed.</em></p>
+	<p><textarea name="text" placeholder="Page content" cols="100" rows="20" {% if not log %}disabled{% endif %}>{{ page.content }}</textarea></p>
 
-	<p><input type="text" name="description" placeholder="Description (Describe what has been changed)" size="60"></p>
+	{% if log %}
+		<p><em>Markdown formatting syntax is allowed.</em></p>
 
-	<p>
-		<input type="submit" name="action" value="Save changes"></input>
-		<input type="submit" name="action" value="Preview"></input>
-	</p>
+		<p><input type="text" name="description" placeholder="Description (Describe what has been changed)" size="60" {% if not log %}disabled{% endif %}></p>
+		<p>
+			<input type="submit" name="action" value="Save changes"></input>
+			<input type="submit" name="action" value="Preview"></input>
+		</p>
+	{% else %}
+		<p>Please <a href="/login">log in</a> to make edits to the wiki.</p>
+	{% endif %}
 </form>
 
 {% if action == 'Preview' %}
