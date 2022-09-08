@@ -1,0 +1,12 @@
+{% extends "_layout.twig" %}
+
+{% set title = "Diff" %}
+
+	{% block content %}
+<h1>Diff for "{{ pagetitle }}" (#{{ prev }} -> #{{ next }})</h1>
+
+<p><a href="/wiki/viewhistory.php?page={{ pagetitle_slugified }}">&lt; Go back to page history</a></p>
+
+{{ diff | raw }}
+<br>
+	{% endblock %}
