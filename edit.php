@@ -19,7 +19,7 @@ if ($log && $action == 'Save changes') {
 			[$page]);
 
 		$newrev = result("SELECT cur_revision FROM wikipages WHERE title = ?", [$page]);
-		$oldsize = result("SELECT size FROM wikirevisions WHERE revision = ?", [$newrev-1]);
+		$oldsize = result("SELECT size FROM wikirevisions WHERE page = ? AND revision = ?", [$page, $newrev-1]);
 
 		query("INSERT INTO wikirevisions (page, revision, author, time, size, sizediff, description, content) VALUES (?,?,?,?,?,?,?,?)",
 			[$page, $newrev, $userdata['id'], time(), $size, ($size - $oldsize), $description, $content]);
