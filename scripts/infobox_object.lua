@@ -1,15 +1,22 @@
 local l, json, data = ...
 
-l.write(string.format([[
-<div class="infobox">
-	<table>
-		<tr><td class="heading" colspan="2">%s</td></tr>
-		<tr><th>ID</th><td>%s</td></tr>
-		<tr><th>Name</th><td>%s</td></tr>
-		<tr><th>Category</th><td>%s</td></tr>
-		<tr><th>Added in</th><td>%s</td></tr>
-	</table>
-</div>
-]], data.name, data.id, data.name, data.category, data.version))
+l.write('<div class="infobox"><table>')
+local heading_classes = {'heading'}
+if data.beta then	table.insert(heading_classes, 'beta')	end
+if data.unused then	table.insert(heading_classes, 'unused')	end
+
+l.write('<tr><td class="%s" colspan="2">%s</td></tr>', table.concat(heading_classes, ' '), data.name)
+l.write('<tr><th style="width:50%%">ID</th><td>%s</td></tr>', data.id)
+l.write('<tr><th>Category</th><td>%s</td></tr>', data.category)
+
+if data.sublayer_depth then
+	l.write('<tr><th>Sublayer depth</th><td>%s</td></tr>', data.sublayer_depth)
+end
+
+if data.version then
+	l.write('<tr><th>Added in</th><td>%s</td></tr>', data.version)
+end
+
+l.write('</table></div>')
 
 l.output()
