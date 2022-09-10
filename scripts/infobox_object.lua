@@ -9,8 +9,8 @@ l.write('<tr><td class="%s" colspan="2">%s</td></tr>', table.concat(heading_clas
 l.write('<tr><th style="width:50%%">ID</th><td>%s</td></tr>', data.id)
 l.write('<tr><th>Category</th><td>%s</td></tr>', data.category)
 
-if data.sublayer_depth then
-	l.write('<tr><th>Sublayer depth</th><td>%s</td></tr>', data.sublayer_depth)
+if data.sublayer_width then
+	l.write('<tr><th>Sublayer width</th><td>%s</td></tr>', data.sublayer_width)
 end
 
 if data.version then

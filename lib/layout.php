@@ -10,6 +10,8 @@ function _twigloader($subfolder = '') {
 		]);
 	});
 
+	$twig->addGlobal('wiki', true);
+
 	$twig->addExtension(new PrincipiaWikiExtension());
 
 	return $twig;

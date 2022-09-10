@@ -1,6 +1,38 @@
 <?php
 
-class ParsedownToC extends \Parsedown {
+class ParsedownWiki extends \Parsedown {
+	function __construct() {
+		$this->InlineTypes['^'][]= 'Superscript';
+		$this->inlineMarkerList .= '^';
+
+		$this->InlineTypes['['][]= 'Wikilink';
+		$this->inlineMarkerList .= '[';
+	}
+
+	protected function inlineSuperscript($excerpt) {
+		if (preg_match('/\^(.*?)\^/', $excerpt['text'], $matches)) {
+			return [
+				'extent' => strlen($matches[0]),
+				'element' => ['name' => 'sup', 'text' => $matches[1]],
+			];
+		}
+	}
+
+	protected function inlineWikilink($excerpt) {
+		if (preg_match('/\[\[(.*?)\]\]/', $excerpt['text'], $matches)) {
+			return [
+				'extent' => strlen($matches[0]),
+				'element' => [
+					'name' => 'a',
+					'text' => $matches[1],
+					'attributes' => [
+						'href' => '/wiki/'.str_replace(' ', '_', $matches[1])
+					]
+				],
+			];
+		}
+	}
+
 	protected $selectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
 	/**

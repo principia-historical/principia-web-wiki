@@ -17,7 +17,7 @@
 		<ul>
 	{% endif %}
 	<li>
-		{{ rev.time | date('H:m') }}
+		{{ rev.time | date('H:i') }}
 		&nbsp;<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}">{{ rev.page }}</a>
 			({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/diff.php?page={{ rev.page | replace({' ': '_'}) }}&prev={{ rev.revision - 1 }}&next={{ rev.revision }}">diff</a>{% endif %}
 				| <a href="/wiki/viewhistory.php?page={{ rev.page | replace({' ': '_'}) }}">hist</a>)

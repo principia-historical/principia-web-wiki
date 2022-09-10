@@ -1,7 +1,7 @@
 <?php
 
 function parsing($text) {
-	$markdown = new ParsedownToC();
+	$markdown = new ParsedownWiki();
 	$markdown->setSafeMode(true);
 
 	$text = $markdown->text($text);
