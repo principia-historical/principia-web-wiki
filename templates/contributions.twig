@@ -1,0 +1,37 @@
+{% extends "_layout.twig" %}
+
+{% set title = "Contributions for " ~ user.name %}
+{% set noindex = true %}
+
+	{% block content %}
+<h2>{{ title }}</h2>
+
+<p>{{ contrib_text | raw }}</p>
+
+<p>Latest 50 contributions:</p>
+
+<ul>
+{% for rev in contributions %}
+<li>
+	<a href="/wiki/{{ pagetitle_slugified }}?rev={{ rev.revision }}">{{ rev.time | date('H:m, Y-m-d') }}</a>
+	({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/diff.php?page={{ rev.page | replace({' ': '_'}) }}&prev={{ rev.revision - 1 }}&next={{ rev.revision }}">diff</a>{% endif %}
+		| <a href="/wiki/viewhistory.php?page={{ rev.page | replace({' ': '_'}) }}">hist</a>)
+			{% if rev.revision != 1 %}
+		{% if rev.sizediff > 0 %}
+			<span style="color:#0f0">(+{{ rev.sizediff }})</span>
+		{% elseif rev.sizediff < 0 %}
+			<span style="color:#f00">({{ rev.sizediff }})</span>
+		{% else %}
+			<span style="color:#aaa">(0)</span>
+		{% endif %}
+	{% else %}
+		<em>New</em>
+	{% endif %}
+	&nbsp;<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}">{{ rev.page }}</a>
+
+	{% if rev.description %} <em>({{ rev.description }})</em>{% endif %}
+</li>
+{% if latest_rev == -1 %}{% set latest_rev = rev.revision %}{% endif %}
+{% endfor %}
+</ul>
+	{% endblock %}
