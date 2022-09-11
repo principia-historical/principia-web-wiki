@@ -10,7 +10,7 @@ $pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r O
 if ($action == 'Preview') $pagedata['content'] = $_POST['text'];
 
 if ($log && $action == 'Save changes') {
-	$content = $_POST['text'] ?? '';
+	$content = normalise($_POST['text'] ?? '');
 	$description = $_POST['description'] ?? null;
 	$size = strlen($content);
 

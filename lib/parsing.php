@@ -19,3 +19,11 @@ function parseFunctions($match) {
 	exec($cmd, $output);
 	return implode('', $output);
 }
+
+/**
+ * Normalise content by stripping carriage returns and trailing whitespace/newlines from the input.
+ */
+function normalise($text) {
+	// I HATE CRLF I HATE CRLF
+	return trim(str_replace("\r", "", $text));
+}
