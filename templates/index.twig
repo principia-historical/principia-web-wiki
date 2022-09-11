@@ -2,6 +2,9 @@
 {% from 'components/wikilinks.twig' import wikilinks %}
 
 {% set title = pagetitle %}
+{% if revision %}
+	{% set noindex = true %}
+{% endif %}
 
 	{% block content %}
 <h1>{{ pagetitle }}</h1>
