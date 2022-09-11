@@ -291,8 +291,7 @@ HTML;
 			// increment until conversion doesn't produce new duplicates anymore
 			if (isset($this->anchorDuplicates[$newStr])) {
 				$newStr = $this->incrementAnchorId($str);
-			}
-			else {
+			} else {
 				$this->anchorDuplicates[$newStr] = 0;
 			}
 		}

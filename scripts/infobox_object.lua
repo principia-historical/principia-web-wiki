@@ -13,6 +13,10 @@ if data.sublayer_width then
 	l.write('<tr><th>Sublayer width</th><td>%s</td></tr>', data.sublayer_width)
 end
 
+if data.stationary then
+	l.write('<tr><th>Stationary</th><td>%s</td></tr>', data.stationary)
+end
+
 if data.version then
 	l.write('<tr><th>Added in</th><td>%s</td></tr>', data.version)
 end
