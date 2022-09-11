@@ -12,6 +12,9 @@ function parsing($text) {
 }
 
 function parseFunctions($match) {
+	if (str_contains($match[1], '.') || !file_exists('scripts/'.$match[1].'.lua'))
+		return '<span class="error">Template error: Invalid function name</span>';
+
 	$cmd = sprintf(
 		"luajit lib/lua/bootstrap.lua %s %s 2>&1",
 	escapeshellarg($match[1]), escapeshellarg($match[2]));

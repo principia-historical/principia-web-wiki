@@ -45,6 +45,10 @@ for obj in object_file_string.split('====='):
 	if name == 'Item':
 		obj_value[description] = 'Selection of items for robots.'
 
+	# we don't want the laser duplicate
+	if name == 'Laser' and g_id == 147:
+		continue
+
 	# blarg
 	if category_name == 'Testing':
 		category_name = "Other"
