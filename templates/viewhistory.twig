@@ -14,7 +14,7 @@
 <li>
 	({% if latest_rev == -1 %}cur {% else %}<a href="/wiki/diff.php?page={{ pagetitle_slugified }}&prev={{ rev.revision }}&next={{ latest_rev }}">cur</a>{% endif %}
 	| {% if rev.revision == 1 %}prev{% else %}<a href="/wiki/diff.php?page={{ pagetitle_slugified }}&prev={{ rev.revision - 1 }}&next={{ rev.revision }}">prev</a>{% endif %})
-	&nbsp;<a href="/wiki/{{ pagetitle_slugified }}?rev={{ rev.revision }}">{{ rev.time | date('H:m, Y-m-d') }}</a>
+	&nbsp;<a href="/wiki/{{ pagetitle_slugified }}?rev={{ rev.revision }}">{{ rev.time | date('H:i, Y-m-d') }}</a>
 	&nbsp;{{ userlink(rev, "u_") }}
 	&nbsp;({{ rev.size }} bytes)
 	{% if rev.revision != 1 %}
