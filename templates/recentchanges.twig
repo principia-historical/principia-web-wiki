@@ -20,8 +20,8 @@
 	<li>
 		{{ rev.time | date('H:i') }}
 		&nbsp;<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}">{{ rev.page }}</a>
-			({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/diff.php?page={{ rev.page | replace({' ': '_'}) }}&prev={{ rev.revision - 1 }}&next={{ rev.revision }}">diff</a>{% endif %}
-				| <a href="/wiki/viewhistory.php?page={{ rev.page | replace({' ': '_'}) }}">hist</a>)
+			({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/diff.php?page={{ rev.page | replace({' ': '_'}) }}&prev={{ rev.revision - 1 }}&next={{ rev.revision }}" rel="nofollow">diff</a>{% endif %}
+				| <a href="/wiki/viewhistory.php?page={{ rev.page | replace({' ': '_'}) }}" rel="nofollow">hist</a>)
 		{% if rev.revision != 1 %}
 			{% if rev.sizediff > 0 %}
 				<span style="color:#0f0">(+{{ rev.sizediff }})</span>

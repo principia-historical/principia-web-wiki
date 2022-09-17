@@ -5,8 +5,10 @@ $page = (isset($_GET['page']) ? str_replace('_', ' ', $_GET['page']) : 'Main Pag
 $prev = $_GET['prev'] ?? null;
 $next = $_GET['next'] ?? null;
 
-$content['prev'] = fetch("SELECT content FROM wikirevisions WHERE page = ? AND revision = ?", [$page, $prev]);
-$content['next'] = fetch("SELECT content FROM wikirevisions WHERE page = ? AND revision = ?", [$page, $next]);
+$content['prev'] = fetch("SELECT content FROM wikirevisions WHERE BINARY page = ? AND revision = ?", [$page, $prev]);
+$content['next'] = fetch("SELECT content FROM wikirevisions WHERE BINARY page = ? AND revision = ?", [$page, $next]);
+
+if (!$content['prev'] || !$content['next']) error('404', 'Invalid revisions provided.');
 
 $diff = new Diff(
 	explode("\n", $content['prev']['content']),

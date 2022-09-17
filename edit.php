@@ -5,7 +5,7 @@ $page = (isset($_GET['page']) ? str_replace('_', ' ', $_GET['page']) : 'Main Pag
 $page_slugified = (isset($_GET['page']) ? $_GET['page'] : 'Main_Page');
 $action = $_POST['action'] ?? null;
 
-$pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON p.cur_revision = r.revision AND p.title = r.page WHERE p.title = ?", [$page]);
+$pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON p.cur_revision = r.revision AND p.title = r.page WHERE BINARY p.title = ?", [$page]);
 
 if ($action == 'Preview') $pagedata['content'] = $_POST['text'];
 

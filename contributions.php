@@ -5,6 +5,8 @@ $id = $_GET['id'] ?? null;
 
 $user = fetch("SELECT * FROM users WHERE id = ?", [$_GET['id']]);
 
+if (!$user) error('404', 'Invalid user.');
+
 $stats = [
 	'contributions' => 0,
 	'additions' => 0,

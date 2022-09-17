@@ -5,11 +5,12 @@ $page = (isset($_GET['page']) ? str_replace('_', ' ', $_GET['page']) : 'Main Pag
 $revision = $_GET['rev'] ?? null;
 
 if ($revision) {
-	$pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON ? = r.revision WHERE p.title = ? AND r.page = ?", [$revision, $page, $page]);
+	$pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON ? = r.revision WHERE BINARY p.title = ? AND BINARY r.page = ?", [$revision, $page, $page]);
 
-	$revdata = fetch("SELECT $userfields r.* FROM wikirevisions r JOIN users u ON r.author = u.id WHERE r.page = ? AND r.revision = ?", [$page, $revision]);
+	$revdata = fetch("SELECT $userfields r.* FROM wikirevisions r JOIN users u ON r.author = u.id WHERE BINARY r.page = ? AND r.revision = ?", [$page, $revision]);
 } else {
-	$pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON p.cur_revision = r.revision WHERE p.title = ? AND r.page = ?", [$page, $page]);
+	$pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON p.cur_revision = r.revision WHERE BINARY p.title = ? AND BINARY r.page = ?", [$page, $page]);
+
 }
 
 $twig = _twigloader();
