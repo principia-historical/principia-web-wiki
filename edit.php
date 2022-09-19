@@ -9,17 +9,17 @@ $pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r O
 
 if ($action == 'Preview') $pagedata['content'] = $_POST['text'];
 
-if ($log && $action == 'Save changes') {
+if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['minedit']) {
 	$content = normalise($_POST['text'] ?? '');
 	$description = $_POST['description'] ?? null;
 	$size = strlen($content);
 
 	if ($pagedata) {
-		query("UPDATE wikipages SET cur_revision = cur_revision + 1 WHERE title = ?",
+		query("UPDATE wikipages SET cur_revision = cur_revision + 1 WHERE BINARY title = ?",
 			[$page]);
 
-		$newrev = result("SELECT cur_revision FROM wikipages WHERE title = ?", [$page]);
-		$oldsize = result("SELECT size FROM wikirevisions WHERE page = ? AND revision = ?", [$page, $newrev-1]);
+		$newrev = result("SELECT cur_revision FROM wikipages WHERE BINARY title = ?", [$page]);
+		$oldsize = result("SELECT size FROM wikirevisions WHERE BINARY page = ? AND revision = ?", [$page, $newrev-1]);
 
 		query("INSERT INTO wikirevisions (page, revision, author, time, size, sizediff, description, content) VALUES (?,?,?,?,?,?,?,?)",
 			[$page, $newrev, $userdata['id'], time(), $size, ($size - $oldsize), $description, $content]);
@@ -31,6 +31,12 @@ if ($log && $action == 'Save changes') {
 			[$page, $userdata['id'], time(), $size, $description, $content]);
 	}
 
+	$minedit = $_POST['minedit'] ?? null;
+	if ($userdata['powerlevel'] > 2 && $minedit) {
+		query("UPDATE wikipages SET minedit = ? WHERE BINARY title = ?",
+			[$minedit, $page]);
+	}
+
 	redirect("/wiki/$page_slugified");
 }
 
@@ -39,5 +45,6 @@ echo $twig->render('edit.twig', [
 	'pagetitle' => $page,
 	'pagetitle_slugified' => str_replace(' ', '_', $page),
 	'page' => $pagedata,
-	'action' => $action
+	'action' => $action,
+	'powerlevels' => $powerlevels
 ]);
