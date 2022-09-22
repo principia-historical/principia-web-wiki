@@ -26,9 +26,9 @@ function discordSafeText($text) {
  * @param array $data Array with the necessary data.
  */
 function wikiEditHook($data) {
-	global $webhook, $domain;
+	global $webhookWiki, $domain;
 
-	$webhook = new Client($webhook);
+	$webhook = new Client($webhookWiki);
 
 	$desc = discordSafeText($data['description']);
 	if ($desc)
