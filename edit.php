@@ -27,6 +27,8 @@ if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['m
 		query("INSERT INTO wikipages (title) VALUES (?)",
 			[$page]);
 
+		$newrev = 1;
+
 		query("INSERT INTO wikirevisions (page, author, time, size, description, content) VALUES (?,?,?,?,?,?)",
 			[$page, $userdata['id'], time(), $size, $description, $content]);
 	}
@@ -36,6 +38,15 @@ if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['m
 		query("UPDATE wikipages SET minedit = ? WHERE BINARY title = ?",
 			[$minedit, $page]);
 	}
+
+	wikiEditHook([
+		'page' => $page,
+		'page_slugified' => $page_slugified,
+		'description' => $description,
+		'revision' => $newrev,
+		'u_id' => $userdata['id'],
+		'u_name' => $userdata['name']
+	]);
 
 	redirect("/wiki/$page_slugified");
 }
