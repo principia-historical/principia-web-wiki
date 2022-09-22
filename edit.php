@@ -7,7 +7,15 @@ $action = $_POST['action'] ?? null;
 
 $pagedata = fetch("SELECT p.*, r.content FROM wikipages p JOIN wikirevisions r ON p.cur_revision = r.revision AND p.title = r.page WHERE BINARY p.title = ?", [$page]);
 
-if ($action == 'Preview') $pagedata['content'] = $_POST['text'];
+if ($action == 'Show changes' && $pagedata) {
+	$diff = new Diff(
+		explode("\n", $pagedata['content']),
+		explode("\n", normalise($_POST['text'])));
+	$renderer = new Diff_Renderer_Html_Inline;
+	$diffoutput = $diff->render($renderer);
+}
+
+if ($action == 'Preview' || $action == 'Show changes') $pagedata['content'] = $_POST['text'];
 
 if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['minedit']) {
 	$content = normalise($_POST['text'] ?? '');
@@ -51,11 +59,14 @@ if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['m
 	redirect("/wiki/$page_slugified");
 }
 
+$pagedata['minedit'] = $_POST['minedit'] ?? ($pagedata['minedit'] ?? 1);
+
 $twig = _twigloader();
 echo $twig->render('edit.twig', [
 	'pagetitle' => $page,
 	'pagetitle_slugified' => str_replace(' ', '_', $page),
 	'page' => $pagedata,
 	'action' => $action,
-	'powerlevels' => $powerlevels
+	'powerlevels' => $powerlevels,
+	'diff' => $diffoutput ?? null
 ]);

@@ -19,6 +19,9 @@
 			<p>
 				<input type="submit" name="action" value="Save changes"></input>
 				<input type="submit" name="action" value="Preview"></input>
+				{% if page.cur_revision %}
+					<input type="submit" name="action" value="Show changes"></input>
+				{% endif %}
 			</p>
 
 			{% if userdata.powerlevel > 2 %}
@@ -43,6 +46,13 @@
 		<p>Please <a href="/login">log in</a> to make edits to this page.</p>
 	{% endif %}
 </form>
+
+{% if action == 'Show changes' %}
+	<hr>
+
+	<h1>Current changes: {{ pagetitle }}</h1>
+	{{ diff | default('None') | raw  }}
+{% endif %}
 
 {% if action == 'Preview' %}
 	<hr>
