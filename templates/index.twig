@@ -5,6 +5,7 @@
 {% if revision %}
 	{% set noindex = true %}
 {% endif %}
+{% set pagename = '/wiki/' ~ pagetitle_slugified %}
 
 	{% block content %}
 <h1>{{ pagetitle }}</h1>
