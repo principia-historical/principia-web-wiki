@@ -42,7 +42,7 @@ function wikiEditHook($data) {
 		$moreinfo = "*(New)*";
 
 	$msg = sprintf(
-		"**[%s](<%s/user/%s>)** edited [%s](%s/wiki/%s) %s %s",
+		"**[%s](<%s/user/%s>)** edited [%s](<%s/wiki/%s>) %s %s",
 	$data['u_name'], $domain, $data['u_id'],
 	$data['page'], $domain, $data['page_slugified'],
 	$moreinfo, $data['description']);
