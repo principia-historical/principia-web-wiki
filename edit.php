@@ -32,6 +32,8 @@ if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['m
 		query("INSERT INTO wikirevisions (page, revision, author, time, size, sizediff, description, content) VALUES (?,?,?,?,?,?,?,?)",
 			[$page, $newrev, $userdata['id'], time(), $size, ($size - $oldsize), $description, $content]);
 	} else {
+		$cache->delete('wpe_'.$page);
+
 		query("INSERT INTO wikipages (title) VALUES (?)",
 			[$page]);
 

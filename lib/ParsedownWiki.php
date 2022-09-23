@@ -20,12 +20,17 @@ class ParsedownWiki extends \Parsedown {
 
 	protected function inlineWikilink($excerpt) {
 		if (preg_match('/\[\[(.*?)\]\]/', $excerpt['text'], $matches)) {
+			$customClass = null;
+			if (!checkPageExistance($matches[1]))
+				$customClass = 'nonexistant';
+
 			return [
 				'extent' => strlen($matches[0]),
 				'element' => [
 					'name' => 'a',
 					'text' => $matches[1],
 					'attributes' => [
+						'class' => $customClass,
 						'href' => '/wiki/'.str_replace(' ', '_', $matches[1])
 					]
 				],
