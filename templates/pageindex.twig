@@ -1,0 +1,19 @@
+{% extends "_layout.twig" %}
+{% from 'components/wikilinks.twig' import wikilinks %}
+
+{% set title = "Wiki Page Index" %}
+{% set pagename = "/wiki/pageindex.php" %}
+
+	{% block content %}
+<h1>Wiki Page Index</h1>
+
+<ul>
+{% for page in pages %}
+	<li>
+		<a href="{{ page.title | replace({" ":"_"}) }}">{{ page.title }}</a>
+	</li>
+{% endfor %}
+</ul>
+
+{{ wikilinks(pagetitle_slugified, "special") }}
+	{% endblock %}
