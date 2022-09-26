@@ -36,7 +36,7 @@ function wikiEditHook($data) {
 
 	if ($data['revision'] > 1) {
 		$moreinfo = sprintf(
-			"([diff](<%s/wiki/diff.php?page=%s&prev=%s&next=%s>))",
+			"([diff](<%s/wiki/%s?action=diff&prev=%s&next=%s>))",
 		$domain, $data['page_slugified'], $data['revision']-1, $data['revision']);
 	} else
 		$moreinfo = "*(New)*";
