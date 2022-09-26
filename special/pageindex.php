@@ -1,6 +1,4 @@
 <?php
-require('lib/common.php');
-
 $pages = query("SELECT title FROM wikipages ORDER BY title ASC");
 
 $twig = _twigloader();

@@ -1,9 +1,4 @@
 <?php
-require('lib/common.php');
-
-$page = (isset($_GET['page']) ? str_replace('_', ' ', $_GET['page']) : 'Main Page');
-$page_slugified = (isset($_GET['page']) ? $_GET['page'] : 'Main_Page');
-
 $pagedata = fetch("SELECT * FROM wikipages WHERE BINARY title = ?", [$page]);
 
 if (!$pagedata) error('404', 'Invalid page name.');

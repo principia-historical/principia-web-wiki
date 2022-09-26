@@ -1,6 +1,4 @@
 <?php
-require('lib/common.php');
-
 $id = $_GET['id'] ?? null;
 
 $user = fetch("SELECT * FROM users WHERE id = ?", [$_GET['id']]);

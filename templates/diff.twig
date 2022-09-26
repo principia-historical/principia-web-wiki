@@ -2,13 +2,13 @@
 
 {% set title = "Diff" %}
 {% set noindex = true %}
-{% set pagename = "/wiki/diff.php" %}
+{% set pagename = "/wiki/" ~ pagetitle_slugified ~ "?action=diff" %}
 
 	{% block content %}
 <h1>Diff for "{{ pagetitle }}" (#{{ prev }} -> #{{ next }})</h1>
 
-<p><a href="/wiki/viewhistory.php?page={{ pagetitle_slugified }}">&lt; Go back to page history</a></p>
+<p><a href="/wiki/{{ pagetitle_slugified }}?action=history">&lt; Go back to page history</a></p>
 
-{{ diff | raw }}
+{{ diff | default('<p>No changes were made.</p>') | raw }}
 <br>
 	{% endblock %}

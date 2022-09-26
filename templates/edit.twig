@@ -3,12 +3,12 @@
 
 {% set title = "Edit article" %}
 {% set noindex = true %}
-{% set pagename = "/wiki/edit.php" %}
+{% set pagename = "/wiki/" ~ pagetitle_slugified ~ "?action=edit" %}
 
 	{% block content %}
 <h1>Edit article</h1>
 
-<form action="/wiki/edit.php?page={{ pagetitle_slugified }}" method="POST">
+<form method="POST">
 	<p><strong>{{ pagetitle }}</strong></p>
 	<p><textarea name="text" placeholder="Page content" cols="100" rows="20" {% if not log %}disabled{% endif %}>{{ page.content }}</textarea></p>
 

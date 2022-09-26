@@ -1,7 +1,4 @@
 <?php
-require('lib/common.php');
-
-$page = (isset($_GET['page']) ? str_replace('_', ' ', $_GET['page']) : 'Main Page');
 $prev = $_GET['prev'] ?? null;
 $next = $_GET['next'] ?? null;
 
@@ -19,7 +16,7 @@ $output = $diff->render($renderer);
 $twig = _twigloader();
 echo $twig->render('diff.twig', [
 	'pagetitle' => $page,
-	'pagetitle_slugified' => str_replace(' ', '_', $page),
+	'pagetitle_slugified' => $page_slugified,
 	'prev' => $prev,
 	'next' => $next,
 	'diff' => $output

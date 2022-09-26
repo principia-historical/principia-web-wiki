@@ -2,6 +2,7 @@
 
 {% set title = "Contributions for " ~ user.name %}
 {% set noindex = true %}
+{% set pagename = "/wiki/Special:Contributions?id=" ~ user.id %}
 
 	{% block content %}
 <h1>{{ title }}</h1>
@@ -14,8 +15,8 @@
 {% for rev in contributions %}
 <li>
 	<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?rev={{ rev.revision }}">{{ rev.time | date('H:i, Y-m-d') }}</a>
-	({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/diff.php?page={{ rev.page | replace({' ': '_'}) }}&prev={{ rev.revision - 1 }}&next={{ rev.revision }}">diff</a>{% endif %}
-		| <a href="/wiki/viewhistory.php?page={{ rev.page | replace({' ': '_'}) }}">hist</a>)
+	({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?action=diff&prev={{ rev.revision - 1 }}&next={{ rev.revision }}">diff</a>{% endif %}
+		| <a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?action=history">hist</a>)
 			{% if rev.revision != 1 %}
 		{% if rev.sizediff > 0 %}
 			<span style="color:#0f0">(+{{ rev.sizediff }})</span>
