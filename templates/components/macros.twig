@@ -15,3 +15,13 @@
 		{% endif %}
 	</div>
 {% endmacro %}
+
+{% macro sizediff(sizediff) %}
+	{% if sizediff > 0 %}
+		<span class="sizediff-pos">(+{{ sizediff }})</span>
+	{% elseif sizediff < 0 %}
+		<span class="sizediff-neg">({{ sizediff }})</span>
+	{% else %}
+		<span class="sizediff-net">(0)</span>
+	{% endif %}
+{% endmacro %}

@@ -1,5 +1,5 @@
 {% extends "_layout.twig" %}
-{% from 'components/macros.twig' import wikilinks %}
+{% from 'components/macros.twig' import wikilinks, sizediff %}
 
 {% set title = "Contributions for " ~ user.name %}
 {% set noindex = true %}
@@ -18,14 +18,8 @@
 	<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?rev={{ rev.revision }}">{{ rev.time | date('H:i, Y-m-d') }}</a>
 	({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?action=diff&prev={{ rev.revision - 1 }}&next={{ rev.revision }}">diff</a>{% endif %}
 		| <a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?action=history">hist</a>)
-			{% if rev.revision != 1 %}
-		{% if rev.sizediff > 0 %}
-			<span style="color:#0f0">(+{{ rev.sizediff }})</span>
-		{% elseif rev.sizediff < 0 %}
-			<span style="color:#f00">({{ rev.sizediff }})</span>
-		{% else %}
-			<span style="color:#aaa">(0)</span>
-		{% endif %}
+	{% if rev.revision != 1 %}
+		{{ sizediff(rev.sizediff) }}
 	{% else %}
 		<em>New</em>
 	{% endif %}

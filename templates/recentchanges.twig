@@ -1,5 +1,5 @@
 {% extends "_layout.twig" %}
-{% from 'components/macros.twig' import wikilinks %}
+{% from 'components/macros.twig' import wikilinks, sizediff %}
 
 {% set title = "Recent Changes" %}
 {% set noindex = true %}
@@ -24,13 +24,7 @@
 			({% if rev.revision == 1 %}diff{% else %}<a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?action=diff&prev={{ rev.revision - 1 }}&next={{ rev.revision }}" rel="nofollow">diff</a>{% endif %}
 				| <a href="/wiki/{{ rev.page | replace({' ': '_'}) }}?action=history" rel="nofollow">hist</a>)
 		{% if rev.revision != 1 %}
-			{% if rev.sizediff > 0 %}
-				<span style="color:#0f0">(+{{ rev.sizediff }})</span>
-			{% elseif rev.sizediff < 0 %}
-				<span style="color:#f00">({{ rev.sizediff }})</span>
-			{% else %}
-				<span style="color:#aaa">(0)</span>
-			{% endif %}
+			{{ sizediff(rev.sizediff) }}
 		{% else %}
 			<em>New</em>
 		{% endif %}

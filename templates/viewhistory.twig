@@ -1,5 +1,5 @@
 {% extends "_layout.twig" %}
-{% from 'components/macros.twig' import wikilinks %}
+{% from 'components/macros.twig' import wikilinks, sizediff %}
 
 {% set title = "Revision history of \"" ~ pagetitle ~ "\"" %}
 {% set noindex = true %}
@@ -19,13 +19,7 @@
 	&nbsp;{{ userlink(rev, "u_") }}
 	&nbsp;({{ rev.size }} bytes)
 	{% if rev.revision != 1 %}
-		{% if rev.sizediff > 0 %}
-			<span style="color:#0f0">(+{{ rev.sizediff }})</span>
-		{% elseif rev.sizediff < 0 %}
-			<span style="color:#f00">({{ rev.sizediff }})</span>
-		{% else %}
-			<span style="color:#aaa">(0)</span>
-		{% endif %}
+		{{ sizediff(rev.sizediff) }}
 	{% endif %}
 	{% if rev.description %} <em>({{ rev.description }})</em>{% endif %}
 </li>
