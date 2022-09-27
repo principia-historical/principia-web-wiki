@@ -1,4 +1,5 @@
 {% extends "_layout.twig" %}
+{% from 'components/macros.twig' import wikilinks %}
 
 {% set title = "Diff" %}
 {% set noindex = true %}
@@ -10,5 +11,6 @@
 <p><a href="/wiki/{{ pagetitle_slugified }}?action=history">&lt; Go back to page history</a></p>
 
 {{ diff | default('<p>No changes were made.</p>') | raw }}
-<br>
+
+{{ wikilinks("diff", pagetitle_slugified) }}
 	{% endblock %}

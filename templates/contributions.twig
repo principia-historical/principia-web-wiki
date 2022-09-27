@@ -1,4 +1,5 @@
 {% extends "_layout.twig" %}
+{% from 'components/macros.twig' import wikilinks %}
 
 {% set title = "Contributions for " ~ user.name %}
 {% set noindex = true %}
@@ -35,4 +36,6 @@
 {% if latest_rev == -1 %}{% set latest_rev = rev.revision %}{% endif %}
 {% endfor %}
 </ul>
+
+{{ wikilinks("special") }}
 	{% endblock %}

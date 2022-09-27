@@ -1,5 +1,5 @@
 {% extends "_layout.twig" %}
-{% from 'components/wikilinks.twig' import wikilinks %}
+{% from 'components/macros.twig' import wikilinks %}
 
 {% set title = pagetitle %}
 {% if revision %}
@@ -21,5 +21,5 @@
 	<p>This page does not exist. Would you like to create it?</p>
 {% endif %}
 
-{{ wikilinks(pagetitle_slugified, "read") }}
+{{ wikilinks("read", pagetitle_slugified) }}
 	{% endblock %}

@@ -1,5 +1,5 @@
 {% extends "_layout.twig" %}
-{% from 'components/wikilinks.twig' import wikilinks %}
+{% from 'components/macros.twig' import wikilinks %}
 
 {% set title = "Revision history of \"" ~ pagetitle ~ "\"" %}
 {% set noindex = true %}
@@ -33,5 +33,5 @@
 {% endfor %}
 </ul>
 
-{{ wikilinks(pagetitle_slugified, "viewhistory") }}
+{{ wikilinks("viewhistory", pagetitle_slugified) }}
 	{% endblock %}

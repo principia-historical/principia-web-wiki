@@ -1,5 +1,5 @@
 {% extends "_layout.twig" %}
-{% from 'components/wikilinks.twig' import wikilinks %}
+{% from 'components/macros.twig' import wikilinks %}
 
 {% set title = "Wiki Page Index" %}
 {% set pagename = "/wiki/Special:PageIndex" %}
@@ -15,5 +15,5 @@
 {% endfor %}
 </ul>
 
-{{ wikilinks(pagetitle_slugified, "special") }}
+{{ wikilinks("special") }}
 	{% endblock %}
