@@ -11,7 +11,10 @@ if ($action == 'Show changes' && $pagedata) {
 	$diffoutput = $diff->render($renderer);
 }
 
-if ($action == 'Preview' || $action == 'Show changes') $pagedata['content'] = $_POST['text'];
+if ($action == 'Preview' || $action == 'Show changes') {
+	$pagedata['content'] = $_POST['text'];
+	$description = $_POST['description'];
+}
 
 if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['minedit']) {
 	$content = normalise($_POST['text'] ?? '');
@@ -65,6 +68,7 @@ echo $twig->render('edit.twig', [
 	'pagetitle_slugified' => str_replace(' ', '_', $page),
 	'page' => $pagedata,
 	'action' => $action,
+	'change_description' => $description ?? null,
 	'powerlevels' => $powerlevels,
 	'diff' => $diffoutput ?? null
 ]);

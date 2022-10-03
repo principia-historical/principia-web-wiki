@@ -16,7 +16,7 @@
 		{% if page.minedit <= userdata.powerlevel %}
 			<p><em>Markdown formatting syntax is allowed.</em></p>
 
-			<p><input type="text" name="description" placeholder="Description (Describe what has been changed)" size="60"></p>
+			<p><input type="text" name="description" placeholder="Description (Describe what has been changed)" size="60" value="{{ change_description }}"></p>
 			<p>
 				<input type="submit" name="action" value="Save changes"></input>
 				<input type="submit" name="action" value="Preview"></input>
