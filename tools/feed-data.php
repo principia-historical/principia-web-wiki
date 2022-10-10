@@ -9,12 +9,20 @@ require('lib/common.php');
 
 $data = json_decode(file_get_contents("tools/outdata.json"));
 
+$stats = ['size' => 0, 'pages' => 0];
+
 foreach ($data as $pagename => $content) {
 	query("INSERT INTO wikipages (title) VALUES (?)",
 		[$pagename]);
 
 	$content = normalise($content);
+	$size = strlen($content);
 
 	query("INSERT INTO wikirevisions (page, author, time, size, description, content) VALUES (?,?,?,?,?,?)",
-		[$pagename, 1, time(), strlen($content), 'Automatic import from script', $content]);
+		[$pagename, 1, time(), $size, 'Automatic import from script', $content]);
+
+	$stats['size'] += $size;
+	$stats['pages']++;
 }
+
+wikiImportHook($stats);

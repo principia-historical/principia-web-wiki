@@ -49,3 +49,20 @@ function wikiEditHook($data) {
 
 	$webhook->message($msg)->send();
 }
+
+/**
+ * Trigger the new wiki edit webhook on bulk imports.
+ *
+ * @param array $data Array with the necessary data.
+ */
+function wikiImportHook($data) {
+	global $webhookWiki;
+
+	$webhook = new Client($webhookWiki);
+
+	$msg = sprintf(
+		"**%d pages** have been imported automatically from script (total **%d bytes**)",
+	$data['pages'], $data['size']);
+
+	$webhook->message($msg)->send();
+}
