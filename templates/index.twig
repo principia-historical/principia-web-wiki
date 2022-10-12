@@ -12,11 +12,13 @@
 
 {% if page.content %}
 	{% if revision %}
-		<p><em>This is an old revision from {{ revdata.time | date('Y-m-d H:m') }} by {{ userlink(revdata, 'u_') }}</em></p>
+		<p><em>Old revision #{{ revision }} from {{ page.time | date('Y-m-d H:m') }} by {{ userlink(page, 'u_') }}.</em>
+			(<a href="/wiki/{{ pagetitle_slugified }}">Go to current revision</a>)</p>
 	{% endif %}
 
 	{{ page.content | markdown_wiki }}
-	{#{{ source('flatfile_db/' ~ pagetitle_slugified) | markdown_unsafe }}#}
+
+	<br><br><em>This page was last modified on {{ page.time | date('Y-m-d H:m') }} by {{ page.u_name }}</em>
 {% else %}
 	<p>This page does not exist. Would you like to create it?</p>
 {% endif %}
