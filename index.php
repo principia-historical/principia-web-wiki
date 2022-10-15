@@ -14,7 +14,7 @@ if (isset($_GET['action'])) {
 }
 
 if (str_starts_with($page, 'Special:')) {
-	$specialpage = 'special/'.strtolower(ltrim($page, 'Special:')).'.php';
+	$specialpage = 'special/'.strtolower(substr($page, 8)).'.php';
 	if (file_exists($specialpage)) {
 		require($specialpage);
 		die();
