@@ -13,7 +13,6 @@ foreach ($pagecontent as $page) {
 	}
 }
 
-$twig = _twigloader();
-echo $twig->render('wantedpages.twig', [
+echo _twigloader()->render('wantedpages.twig', [
 	'wantedpages' => $wantedpages
 ]);

@@ -1,7 +1,6 @@
 <?php
 $pages = query("SELECT title FROM wikipages ORDER BY title ASC");
 
-$twig = _twigloader();
-echo $twig->render('pageindex.twig', [
+echo _twigloader()->render('pageindex.twig', [
 	'pages' => $pages
 ]);

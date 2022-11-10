@@ -1,4 +1,3 @@
 <?php
 
-$twig = _twigloader();
-echo $twig->render('version.twig');
+echo _twigloader()->render('version.twig');

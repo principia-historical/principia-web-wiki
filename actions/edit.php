@@ -62,8 +62,7 @@ if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['m
 
 $pagedata['minedit'] = $_POST['minedit'] ?? ($pagedata['minedit'] ?? 1);
 
-$twig = _twigloader();
-echo $twig->render('edit.twig', [
+echo _twigloader()->render('edit.twig', [
 	'pagetitle' => $page,
 	'pagetitle_slugified' => str_replace(' ', '_', $page),
 	'page' => $pagedata,
