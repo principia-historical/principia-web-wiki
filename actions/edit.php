@@ -16,7 +16,7 @@ if ($action == 'Preview' || $action == 'Show changes') {
 	$description = $_POST['description'];
 }
 
-if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['minedit']) {
+if ($log && $action == 'Save changes' && $userdata['rank'] >= $pagedata['minedit']) {
 	$content = normalise($_POST['text'] ?? '');
 	$description = $_POST['description'] ?? null;
 	$size = strlen($content);
@@ -43,7 +43,7 @@ if ($log && $action == 'Save changes' && $userdata['powerlevel'] >= $pagedata['m
 	}
 
 	$minedit = $_POST['minedit'] ?? null;
-	if ($userdata['powerlevel'] > 2 && $minedit) {
+	if ($userdata['rank'] > 2 && $minedit) {
 		query("UPDATE wikipages SET minedit = ? WHERE BINARY title = ?",
 			[$minedit, $page]);
 	}
@@ -68,6 +68,6 @@ echo _twigloader()->render('edit.twig', [
 	'page' => $pagedata,
 	'action' => $action,
 	'change_description' => $description ?? null,
-	'powerlevels' => $powerlevels,
+	'ranks' => $ranks,
 	'diff' => $diffoutput ?? null
 ]);
