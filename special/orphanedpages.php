@@ -14,6 +14,15 @@ foreach ($pagecontent as $page) {
 		$linkedpages[$link] = true;
 }
 
+// Add a "blacklist" of pages that get linked by the wiki software or by the client and therefore aren't really orphans.
+$blacklist = [
+	'Main Page', 'Copyright', // wiki software
+	'Bad Graphics', 'Getting Started', // Principia client
+];
+
+foreach ($blacklist as $page)
+	$linkedpages[$page] = true;
+
 // Iterate over pages, any pages not existing in $linkedpages is an orphan!
 $orphanedpages = [];
 foreach ($pages as $page) {
