@@ -7,6 +7,9 @@ function parsing($text) {
 	$text = $markdown->text($text);
 
 	$text = preg_replace_callback('@{{ ([\w\d\.]+)\((.+?)\) }}@si', 'parseFunctions', $text);
+	
+	// Rewrite imgur image links to point to archive at /wiki/images/imgur/
+	$text = str_replace('https://i.imgur.com/', '/wiki/images/imgur/', $text);
 
 	return $text;
 }
