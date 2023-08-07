@@ -22,12 +22,12 @@ if (str_starts_with($page, 'Special:')) {
 }
 
 if ($revision) {
-	$pagedata = fetch("SELECT p.*, $userfields r.time, r.content FROM wikipages p
+	$pagedata = fetch("SELECT p.*, $userfields, r.time, r.content FROM wikipages p
 			JOIN wikirevisions r ON ? = r.revision
 			JOIN users u ON r.author = u.id
 			WHERE BINARY p.title = ? AND BINARY r.page = ? AND r.revision = ?", [$revision, $page, $page, $revision]);
 } else {
-	$pagedata = fetch("SELECT p.*, $userfields r.time, r.content FROM wikipages p
+	$pagedata = fetch("SELECT p.*, $userfields, r.time, r.content FROM wikipages p
 			JOIN wikirevisions r ON p.cur_revision = r.revision
 			JOIN users u ON r.author = u.id
 			WHERE BINARY p.title = ? AND BINARY r.page = ?", [$page, $page]);

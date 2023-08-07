@@ -13,7 +13,8 @@ function skriv($text) {
 	file_put_contents('gource.log', $text . PHP_EOL, FILE_APPEND);
 }
 
-$revisions = query("SELECT $userfields r.page, r.revision, r.size, r.time FROM wikirevisions r JOIN users u ON r.author = u.id ORDER BY r.time ASC, r.id");
+$revisions = query("SELECT $userfields, r.page, r.revision, r.size, r.time
+		FROM wikirevisions r JOIN users u ON r.author = u.id ORDER BY r.time ASC, r.id");
 
 while ($rev = $revisions->fetch()) {
 	skriv(sprintf(

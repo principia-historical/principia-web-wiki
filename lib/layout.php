@@ -22,8 +22,6 @@ class PrincipiaWikiExtension extends \Twig\Extension\AbstractExtension {
 		return [
 			// Markdown function for wiki, sanitized and using the ToC extension.
 			new \Twig\TwigFilter('markdown_wiki', 'parsing', ['is_safe' => ['html']]),
-
-			new \Twig\TwigFilter('number_format', 'number_format')
 		];
 	}
 }

@@ -7,6 +7,8 @@ print("Import data from 'tools/outdata.json' into the wiki.\n\n");
 
 require('lib/common.php');
 
+if (!isCli()) die('no');
+
 $data = json_decode(file_get_contents("tools/outdata.json"));
 
 $stats = ['size' => 0, 'pages' => 0];
